@@ -1,0 +1,32 @@
+= form_with(model: place, local: true) do |form|
+  - if place.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(place.errors.count, "error")
+        prohibited this place from being saved:
+      %ul
+        - place.errors.full_messages.each do |message|
+          %li= message
+  %div{style: 'display: flex'}
+    .field{style: 'padding-right: 5px'}
+      = form.label :name
+      = form.text_field :name, required:true, value: place.name, class: 'location-field', id: 'name-geocoder'
+    .field{style: 'padding-right: 5px'}
+      = form.label :address
+      = form.text_field :address, required:true, value: place.address, class: 'location-field', id: 'address-geocoder'
+    .field{style: 'padding-right: 5px'}
+      = form.label :latitude
+      = form.text_field :latitude, required:true, value: place.latitude, class: 'location-field', id: 'latitude-geocoder'
+    .field{style: 'padding-right: 5px'}
+      = form.label :longitude
+      = form.text_field :longitude, required:true, value: place.longitude, class: 'location-field', id: 'longitude-geocoder'
+    .actions
+      = form.submit
+  #location-map{style: 'height: 400px; width: 700px'}
+
+
+:javascript 
+
+  $('.location-field').change(function() {
+    createMap()
+  });
